@@ -5,7 +5,6 @@ function ClassicField({ labelName, name, inputType }) {
 	return (
 		<>
 			<label>{labelName}</label>
-			<br />
 			<input
 				name={name}
 				type={inputType}
