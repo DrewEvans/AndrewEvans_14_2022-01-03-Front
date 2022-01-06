@@ -1,9 +1,14 @@
 import React from "react";
-import ClassicField from "./ClassicField";
-import { submitButton, SelectDropdown } from "react-formzie";
 
-function Form() {
-	return <form></form>;
+function Form({ children, title }) {
+	const renderChildren = (child) => <>{child}</>;
+
+	return (
+		<form>
+			<h1>{title}</h1>
+			{renderChildren(children)}
+		</form>
+	);
 }
 
 export default Form;

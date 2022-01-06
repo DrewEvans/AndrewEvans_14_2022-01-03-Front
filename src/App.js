@@ -1,4 +1,9 @@
-import { SelectDropdown, SubmitButton } from "react-formzie";
+import {
+	FieldList,
+	Formzie,
+	SelectDropdown,
+	SubmitButton,
+} from "react-formzie";
 import ClassicField from "./ClassicField";
 import Form from "./Form";
 
@@ -41,6 +46,32 @@ function App() {
 				name='terms'
 				inputType='checkbox'
 			/>
+
+			<Form title='Formzie Form'>
+				<FieldList
+					label='email'
+					type='email'
+					name='email'
+					placeholder='e.g email'
+				/>
+				<FieldList
+					label='name'
+					type='text'
+					name='name'
+					placeholder='e.g john'
+				/>
+				<FieldList label='password' type='password' name='password' />
+				<SelectDropdown
+					label={label}
+					options={list}
+					collectValue={collectFieldValues.select}
+				/>
+				<SubmitButton
+					text='Submit'
+					backgroundColor='advocado'
+					size='lg'
+				/>
+			</Form>
 		</>
 	);
 }
