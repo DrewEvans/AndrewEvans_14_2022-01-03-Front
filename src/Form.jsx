@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Form({children, renderChildren}) {
-	console.log()
-	console.log(children)
+
+	const [value, setValue] = useState({values: ""})
+
+	const handleChange = (event) => {
+		this.setState({value: event.target.value});
+	  }
 	
-	return <div><h1></h1>{renderChildren(children)}</div>;
-}
+	  const handleSubmit = (event) => {
+		alert('A name was submitted: ' + this.state.value);
+		event.preventDefault();
+	  }
+
+return(
+<form onSubmit={handleSubmit}>
+<label>
+  Name:
+  <input type="text" value={value} onChange={handleChange} />
+</label>
+<input type="submit" value="Submit" />
+</form>
+)}
 
 export default Form;

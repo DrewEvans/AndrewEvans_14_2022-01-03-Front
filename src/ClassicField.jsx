@@ -1,16 +1,18 @@
 import { useState } from "react";
 
-function ClassicField({ labelName, name, inputType }) {
-	const [value, setValue] = useState();
+function ClassicField({ labelHeader, type, idNameHtml, onChange, value }) {
 	return (
 		<>
-			<label>{labelName}</label>
-			<input
-				name={name}
-				type={inputType}
-				value={value}
-				onChange={(e) => setValue(e.target.value)}
-			/>
+			<label htmlFor={idNameHtml}>{labelHeader}</label>
+					<input
+						id={idNameHtml}
+						name={idNameHtml}
+						type={type}
+						minLength="2"
+						value={value}
+						aria-label={labelHeader}
+						onChange={onChange}
+					/>
 		</>
 	);
 }
