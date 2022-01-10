@@ -5,28 +5,29 @@ import {
   SubmitButton,
   FieldList,
 } from "react-formzie";
-import ClassicField from "./ClassicField";
-import Form from "./Form";
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
-const label = "Dropdown Component Lib";
 
 function App() {
-  const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    state: "",
-    zipCode: "",
-    department: "",
-    startDate: "",
-  });
+  const [values, setValues] = useState({});
 
   //listens to any changes made in the input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     //set state with new data on e
     setValues({ ...values, [name]: value });
+  };
+  const handleClick = {
+    department: (e) => {
+      const { innerText } = e.target;
+      //set state with new data on e
+      setValues({ ...values, ["department"]: innerText });
+    },
+    state: (e) => {
+      const { innerText } = e.target;
+      //set state with new data on e
+      setValues({ ...values, ["state"]: innerText });
+    },
   };
 
   const handleSubmit = (e) => {
@@ -58,77 +59,53 @@ function App() {
             value={values.lastName}
           />
           <FieldList
-            labelHeader='Email'
-            type='email'
-            idNameHtml='email'
+            labelHeader='Date of Birth'
+            type='date'
+            idNameHtml='dateOfBirth'
             onChange={handleChange}
-            value={values.email}
+            value={values.dateOfBirth}
           />
           <FieldList
-            labelHeader='State'
-            type='text'
-            idNameHtml='state'
-            onChange={handleChange}
-            value={values.state}
-          />
-          <FieldList
-            labelHeader='zip'
-            type='number'
-            idNameHtml='zipCode'
-            onChange={handleChange}
-            value={values.zipCode}
-          />
-          <FieldList
-            labelHeader='Stat Date'
+            labelHeader='Start Date'
             type='date'
             idNameHtml='startDate'
             onChange={handleChange}
             value={values.startDate}
           />
+          <FieldList
+            labelHeader='Street'
+            type='text'
+            idNameHtml='street'
+            onChange={handleChange}
+            value={values.street}
+          />
+          <FieldList
+            labelHeader='City'
+            type='text'
+            idNameHtml='city'
+            onChange={handleChange}
+            value={values.city}
+          />
           <SelectDropdown
+            label='State'
+            onClick={handleClick.state}
+            options={["MD", "MA", "MS", "MO", "NE"]}
+          />
+          <FieldList
+            labelHeader='Zip'
+            type='number'
+            idNameHtml='zipCode'
+            onChange={handleChange}
+            value={values.zipCode}
+          />
+          <SelectDropdown
+            label='Department'
             options={list}
-            collectValue={handleChange}
+            onClick={handleClick.department}
             value={values.department}
           />
         </Formzie>
         {console.log(values)}
-
-        {/* <ClassicField
-            labelname='First Name'
-            // name='firstName'
-            inputType={"text"}
-          />
-          <FieldList
-            label='firstname'
-            type='text'
-            collectValue={collectFieldValues.firstname}
-          />
-          <FieldList
-            label='last Name'
-            type='text'
-            collectValue={collectFieldValues.lastname}
-          />
-          <FieldList
-            label='Date of Birth'
-            type='date'
-            collectValue={collectFieldValues.dob}
-          />
-          <FieldList
-            label='Start Date'
-            type='date'
-            collectValue={collectFieldValues.startDate}
-          />
-          <SelectDropdown
-            label={label}
-            options={list}
-            collectValue={collectFieldValues.select}
-          />
-          <SubmitButton
-            text='Submit'
-            backgroundColor='#e7a9d7'
-            size='lg'
-            handleSubmit={handleSubmit}
-          /> */}
       </div>
     </>
   );
