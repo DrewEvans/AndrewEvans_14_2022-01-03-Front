@@ -1,107 +1,117 @@
+import { useState } from "react";
 import {
-	FieldList,
 	Formzie,
 	SelectDropdown,
 	SubmitButton,
+	FieldList,
 } from "react-formzie";
-import ClassicField from "./ClassicField";
 import Form from "./Form";
 
-const list = ["tim", "bob", "jim"];
-const label = "Dropdown Component Lib";
+const list = ["Sales", "HR", "Marketing", "Finance"];
 
 function App() {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("gather Values as submit");
-  };
+	const [values, setValues] = useState({});
 
-  const collectFieldValues = {
-    select: (value) => {
-      console.log(value);
-    },
-  };
+	//listens to any changes made in the input fields
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		//set state with new data on e
+		setValues({ ...values, [name]: value });
+	};
+	const handleClick = {
+		department: (e) => {
+			const { innerText } = e.target;
+			//set state with new data on e
+			setValues({ ...values, department: innerText });
+		},
+		state: (e) => {
+			const { innerText } = e.target;
+			//set state with new data on e
+			setValues({ ...values, state: innerText });
+		},
+	};
 
-<<<<<<< HEAD
+	console.log(values);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log("gather Values as submit");
+	};
+
+	const style = {
+		display: "flex",
+		justifyContent: "center",
+	};
+
 	return (
 		<>
-			<SelectDropdown
-				label={label}
-				options={list}
-				collectValue={collectFieldValues.select}
-			/>
-			<SubmitButton
-				text='Submit'
-				backgroundColor='#e7a9d7'
-				size='lg'
-				handleSubmit={handleSubmit}
-			/>
-
-			<ClassicField
-				labelName='firstName'
-				name='firstName'
-				inputType='text'
-			/>
-			<ClassicField
-				labelName='Accept T&Cs'
-				name='terms'
-				inputType='checkbox'
-			/>
-
-			<Form title='Formzie Form'>
-				<FieldList
-					label='email'
-					type='email'
-					name='email'
-					placeholder='e.g email'
-				/>
-				<FieldList
-					label='name'
-					type='text'
-					name='name'
-					placeholder='e.g john'
-				/>
-				<FieldList label='password' type='password' name='password' />
-				<SelectDropdown
-					label={label}
-					options={list}
-					collectValue={collectFieldValues.select}
-				/>
-				<SubmitButton
-					text='Submit'
-					backgroundColor='advocado'
-					size='lg'
-				/>
-			</Form>
+			<div style={style}>
+				<Form title='Formzie' renderChildren={(child) => <>{child}</>}>
+					<FieldList
+						labelHeader='FirstName'
+						type='text'
+						idNameHtml='firstName'
+						onChange={handleChange}
+						value={values.firstName}
+					/>
+					<FieldList
+						labelHeader='Last Name'
+						type='text'
+						idNameHtml='lastName'
+						onChange={handleChange}
+						value={values.lastName}
+					/>
+					<FieldList
+						labelHeader='Date of Birth'
+						type='date'
+						idNameHtml='dateOfBirth'
+						onChange={handleChange}
+						value={values.dateOfBirth}
+					/>
+					<FieldList
+						labelHeader='Start Date'
+						type='date'
+						idNameHtml='startDate'
+						onChange={handleChange}
+						value={values.startDate}
+					/>
+					<FieldList
+						labelHeader='Street'
+						type='text'
+						idNameHtml='street'
+						onChange={handleChange}
+						value={values.street}
+					/>
+					<FieldList
+						labelHeader='City'
+						type='text'
+						idNameHtml='city'
+						onChange={handleChange}
+						value={values.city}
+					/>
+					<SelectDropdown
+						label='State'
+						onClick={handleClick.state}
+						options={["MD", "MA", "MS", "MO", "NE"]}
+					/>
+					<FieldList
+						labelHeader='Zip'
+						type='number'
+						idNameHtml='zipCode'
+						onChange={handleChange}
+						value={values.zipCode}
+					/>
+					<SelectDropdown
+						label='Department'
+						options={list}
+						onClick={handleClick.department}
+						value={values.department}
+					/>
+					<SubmitButton text='submit' />
+				</Form>
+			</div>
 		</>
 	);
-=======
-  return (
-    <>
-      <SelectDropdown
-        label={label}
-        options={list}
-        collectValue={collectFieldValues.select}
-      />
-      <SubmitButton
-        text='Submit'
-        backgroundColor='#e7a9d7'
-        size='lg'
-        handleSubmit={handleSubmit}
-      />
-      <Form renderChildren={(child) => <>{child}</>}>
-        <ClassicField labelName='firstName' name='firstName' inputType='text' />
-        <ClassicField labelName='lastName' name='lastName' inputType='text' />
-        <ClassicField labelName='email' name='email' inputType='email' />
-        <ClassicField
-          labelName='Accept T&Cs'
-          name='terms'
-          inputType='checkbox'
-        />
-      </Form>
-    </>
-  );
->>>>>>> 9ea5e82235b288c94bc0c5be5c6f5e6a9df4427c
 }
 
 export default App;
