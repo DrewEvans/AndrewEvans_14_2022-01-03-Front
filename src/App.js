@@ -104,8 +104,8 @@ function App() {
             onClick={handleClick.department}
             value={values.department}
           />
+          <SubmitButton text='submit' />
         </Formzie>
-        {console.log(values)}
       </div>
     </>
   );
