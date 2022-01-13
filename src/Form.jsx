@@ -6,13 +6,27 @@ function Form({ children, title }) {
 	const style = {
 		display: "flex",
 		flexDirection: "column",
+		width: "270px",
+		margin: ".5rem 2rem",
+		padding: ".5rem",
 	  };
 
 	return (
 		<form style={style}>		
 			<h1>{title}</h1>
 			{children.map((child) => {
-				const {controlType, labelHeader, idNameHtml, options, onChange, onClick, type, minLength, value, placeholder, buttonText} = child.props
+				const { 
+					controlType, 
+					labelHeader, 
+					idNameHtml, 
+					options, 
+					onChange, 
+					onClick, 
+					type, 
+					minLength, 
+					value, 
+					placeholder, 
+					buttonText} = child.props
 			
 				if(controlType === "select"){
 				return (

@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 // import {
 //   Formzie,
 //   SelectDropdown,
 //   SubmitButton,
 //   FieldList,
 // } from "react-formzie";
-import Form from "./Form";
+// import Form from "./Form";
 import InputField from "./InputField";
+
+const Form = lazy(() => import("./Form"));
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
 
@@ -46,45 +48,80 @@ function App() {
 
   return (
     <>
-      <div style={style}>
-        <Form title={"Formzie"}>
-          <InputField
-            controlType={"select"}
-            labelHeader={"Department"}
-            idNameHtml={"department"}
-            onChange={handleChange}
-            options={list}
-          />
-          <InputField
-            controlType={"input"}
-            labelHeader='FirstName'
-            type='text'
-            idNameHtml='firstName'
-            onChange={handleChange}
-            value={values.firstName}
-          />
-          <InputField
-            controlType={"input"}
-            labelHeader='Last Name'
-            type='text'
-            idNameHtml='lastName'
-            onChange={handleChange}
-            value={values.lastName}
-          />
-          <InputField
-            controlType={"select"}
-            labelHeader={"State"}
-            idNameHtml={"state"}
-            onChange={handleChange}
-            options={["MD", "MA", "MS", "MO", "NE"]}
-          />
-          <InputField
-            controlType={"submit"}
-            onClick={handleSubmit}
-            buttonText='Submit'
-          />
+      <Suspense fallback={<div>...Loading</div>}>
+        <div style={style}>
+          <Form title={"Formzie"}>
+            <InputField
+              controlType={"input"}
+              labelHeader='First Name'
+              type='text'
+              idNameHtml='firstName'
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"input"}
+              labelHeader='Last Name'
+              type='text'
+              idNameHtml='lastName'
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"input"}
+              labelHeader='Date of Birth'
+              type='date'
+              idNameHtml='dateOfBirth'
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"input"}
+              labelHeader='Start Date'
+              type='date'
+              idNameHtml='startDate'
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"input"}
+              labelHeader='Street'
+              type='text'
+              idNameHtml='street'
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"input"}
+              labelHeader='City'
+              type='text'
+              idNameHtml='city'
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"select"}
+              labelHeader={"State"}
+              idNameHtml={"state"}
+              onChange={handleChange}
+              options={["MD", "MA", "MS", "MO", "NE"]}
+            />
+            <InputField
+              controlType={"input"}
+              labelHeader='Zip Code'
+              type='text'
+              idNameHtml='number'
+              minLength={5}
+              onChange={handleChange}
+            />
+            <InputField
+              controlType={"select"}
+              labelHeader={"Department"}
+              idNameHtml={"department"}
+              onChange={handleChange}
+              options={list}
+            />
+            <InputField
+              controlType={"submit"}
+              onClick={handleSubmit}
+              buttonText='Submit'
+            />
 
-          {/* <FieldList
+            {/* <FieldList
             labelHeader='FirstName'
             type='text'
             idNameHtml='firstName'
@@ -145,8 +182,9 @@ function App() {
             value={values.department}
           />
           <SubmitButton text='submit' /> */}
-        </Form>
-      </div>
+          </Form>
+        </div>
+      </Suspense>
     </>
   );
 }

@@ -1,0 +1,92 @@
+:root {
+  --main-font-color: black;
+  --main-bg-color: #f9f9f9;
+  --main-border-color: #e5e5e5;
+  --border-focus-color: #1c1c1c;
+  --input-focus-color: #0f0f0f;
+}
+
+h1,
+h4 {
+  color: var(--main-font-color);
+  margin: 0.5em 0;
+}
+
+select:first-of-type {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+select:last-of-type {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+select:focus,
+select:active {
+  outline: 0;
+}
+select option {
+  background-color: var(--main-font-color);
+  color: black;
+  font-weight: 500;
+}
+
+input,
+select option,
+select {
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 500;
+  width: 100%;
+  padding: 0.6em;
+  line-height: 1.4;
+  background-color: var(--main-bg-color);
+  border: 1px solid var(--main-border-color);
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+select:focus,
+select:active {
+  outline: 0;
+  border-color: var(--border-focus-color);
+}
+
+input:focus {
+  outline: 0;
+  border-color: var(--input-focus-color);
+}
+input:focus {
+  color: var(--input-focus-color);
+}
+input:focus {
+  border-right-color: var(--input-focus-color);
+}
+
+button {
+  font-family: inherit;
+  width: 50%;
+  align-self: flex-end;
+  height: 2em;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  background: var(--main-font-color);
+  color: #fff;
+  font-size: 1.25em;
+  margin: 1em 0;
+  text-align: center;
+  box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  color: #f5f5f5;
+  background-color: var(--input-focus-color);
+}
+
+button:focus {
+  background-color: var(--border-focus-color);
+}

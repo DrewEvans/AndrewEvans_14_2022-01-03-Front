@@ -1,17 +1,18 @@
 import React from 'react'
+import './styles.css'
 
 function InputField({controlType, labelHeader, type, idNameHtml, value, onChange, onClick, minLength, placeholder, options, buttonText}) {
     
     if(controlType === "select"){
         return (
             <>
-                <label htmlFor={idNameHtml}>{labelHeader}</label>
+                <label className="input-group" htmlFor={idNameHtml}><h4>{labelHeader}</h4></label>
 
-                <select name={idNameHtml} id={idNameHtml} onChange={onChange}>
-                    <option value="">--please choose an option</option>
+                <select className="select" name={idNameHtml} id={idNameHtml} onChange={onChange}>
+                    {/* <option value="">--please choose an option</option> */}
                     {options.map((option, i) =>{
                         return ( 
-                            <option 
+                            <option className='option'
                             key={`${idNameHtml}-${i++}`}
                             value={option}>{option}</option>
                         )
@@ -24,7 +25,7 @@ function InputField({controlType, labelHeader, type, idNameHtml, value, onChange
     if(controlType === "input"){
      return(   
         <>
-            <label htmlFor={idNameHtml}>{labelHeader}</label>
+            <label className="input-group" htmlFor={idNameHtml}><h4>{labelHeader}</h4></label>
                 <input
                 id={idNameHtml}
                 name={idNameHtml}
