@@ -1,56 +1,51 @@
-import { lazy, Suspense, useState } from "react";
-// import {
-//   Formzie,
-//   SelectDropdown,
-//   SubmitButton,
-//   FieldList,
-// } from "react-formzie";
-// import Form from "./Form";
-import InputField from "./InputField";
+import { Suspense, useState } from "react";
+import { Formzie, InputField, Modal } from "react-formzie";
+import useForm from "./hooks/useForm";
+import useFetch from "./hooks/useFetch";
+import useKeyPress from "./hooks/useKeyPress";
+import validate from "./helpers/newEmployeeFormValidation";
+import styled from "styled-components";
 
-const Form = lazy(() => import("./Form"));
+const FormContainer = styled.div`
+  display: flex,
+  justifyContent: center,
+`;
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
 
 function App() {
-  const [values, setValues] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const { handleChange, values, errors } = useForm(validate);
+  const { data, loading } = useFetch("http://localhost:5000/api/employees");
+  console.log(useKeyPress("Escape"));
 
-  //listens to any changes made in the input fields
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    //set state with new data on e
-    setValues({ ...values, [name]: value });
+  useKeyPress("Enter") === True ? console.log("close") : null;
+
+  // if (loading === false && data) {
+  //   console.log(data.body);
+  // }
+
+  const handleOpen = (e) => {
+    if (!isOpen) {
+      setIsOpen(true);
+    } else if (
+      (isOpen && e.target.classList.contains("modal-cross")) ||
+      e.target.classList.contains("wrapper")
+    ) {
+      setIsOpen(false);
+    }
   };
-  //   const handleClick = {
-  //     department: (e) => {
-  //       const { innerText } = e.target;
-  //       //set state with new data on e
-  //       setValues({ ...values, department: innerText });
-  //     },
-  //     state: (e) => {
-  //       const { innerText } = e.target;
-  //       //set state with new data on e
-  //       setValues({ ...values, state: innerText });
-  //     },
-  //   };
-
-  //   console.log(values);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
-  };
-
-  const style = {
-    display: "flex",
-    justifyContent: "center",
+    handleOpen();
   };
 
   return (
     <>
       <Suspense fallback={<div>...Loading</div>}>
-        <div style={style}>
-          <Form title={"Formzie"}>
+        <FormContainer>
+          <Formzie title={"Formzie"}>
             <InputField
               controlType={"input"}
               labelHeader='First Name'
@@ -103,8 +98,8 @@ function App() {
             <InputField
               controlType={"input"}
               labelHeader='Zip Code'
-              type='text'
-              idNameHtml='number'
+              type='number'
+              idNameHtml='zipCode'
               minLength={5}
               onChange={handleChange}
             />
@@ -120,70 +115,13 @@ function App() {
               onClick={handleSubmit}
               buttonText='Submit'
             />
-
-            {/* <FieldList
-            labelHeader='FirstName'
-            type='text'
-            idNameHtml='firstName'
-            onChange={handleChange}
-            value={values.firstName}
-          />
-          <FieldList
-            labelHeader='Last Name'
-            type='text'
-            idNameHtml='lastName'
-            onChange={handleChange}
-            value={values.lastName}
-          />
-          <FieldList
-            labelHeader='Date of Birth'
-            type='date'
-            idNameHtml='dateOfBirth'
-            onChange={handleChange}
-            value={values.dateOfBirth}
-          />
-          <FieldList
-            labelHeader='Start Date'
-            type='date'
-            idNameHtml='startDate'
-            onChange={handleChange}
-            value={values.startDate}
-          />
-          <FieldList
-            labelHeader='Street'
-            type='text'
-            idNameHtml='street'
-            onChange={handleChange}
-            value={values.street}
-          />
-          <FieldList
-            labelHeader='City'
-            type='text'
-            idNameHtml='city'
-            onChange={handleChange}
-            value={values.city}
-          />
-          <SelectDropdown
-            label='State'
-            onClick={handleClick.state}
-            options={["MD", "MA", "MS", "MO", "NE"]}
-          />
-          <FieldList
-            labelHeader='Zip'
-            type='number'
-            idNameHtml='zipCode'
-            onChange={handleChange}
-            value={values.zipCode}
-          />
-          <SelectDropdown
-            label='Department'
-            options={list}
-            onClick={handleClick.department}
-            value={values.department}
-          />
-          <SubmitButton text='submit' /> */}
-          </Form>
-        </div>
+          </Formzie>
+        </FormContainer>
+        {isOpen && (
+          <Modal onClick={handleOpen}>
+            <p>i need this to go </p>
+          </Modal>
+        )}
       </Suspense>
     </>
   );

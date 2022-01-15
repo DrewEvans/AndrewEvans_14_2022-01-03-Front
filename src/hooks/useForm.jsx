@@ -1,14 +1,8 @@
 import { useState } from "react";
 
-const useForm = (validate, id, onClose) => {
-	const [values, setValues] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		message: "",
-	});
-
-	const [errors, setErrors] = useState({});
+const useForm = (validate) => {
+	const [values, setValues] = useState({});
+	const [errors, setErrors] = useState();
 
 	//listens to any changes made in the input fields
 	const handleChange = (e) => {
@@ -16,21 +10,20 @@ const useForm = (validate, id, onClose) => {
 		//set state with new data on e
 		setValues({ ...values, [name]: value });
 		//pass values to validate to test and set errors if any recorded
-		setErrors(validate(values));
+		
 	};
 
+
+
 	const submitForm = () => {
+		setErrors(validate(values));
 		//if no error objects are present push data to server and log user data
-		if (!errors.firstName && !errors.lastName && !errors.email) {
-	
-			console.log(
-		values
-			);
-		
+		if (Object.keys(errors).length === 0 ) {
+				console.log("no errors, submit values")
 		} else {
 			return console.log(
-				" %c Errors Present",
-				
+				`${Object.keys(errors).length} Error(s) Present`,
+				console.log(Object.keys(errors))
 			);
 		}
 	};
