@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 
 const useKeyPress = (targetKey) => {
 	// State for keeping track of whether key is pressed
-	const [keyPressed, setKeyPressed] = useState(false);
+	const [state, setState] = useState({keyPressed: false});
 
 	// If pressed key is our target key then set to true
 	const downHandler = ({ key }) => {
 		if (key === targetKey) {
-			setKeyPressed(true);
+			setState({keyPressed: true});
 		}
 	};
 
 	// If released key is our target key then set to false
 	const upHandler = ({ key }) => {
 		if (key === targetKey) {
-			setKeyPressed(false);
+			setState({keyPressed: false});
 		}
 	};
 
@@ -29,7 +29,7 @@ const useKeyPress = (targetKey) => {
 		};
 	}, []); // Empty array ensures that effect is only run on mount and unmount
 
-	return keyPressed;
+	return state;
 };
 
 export default useKeyPress;
