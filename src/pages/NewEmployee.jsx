@@ -1,10 +1,16 @@
-import { Suspense, useState } from "react";
-import { Formzie, InputField, Modal } from "react-formzie";
+import React, { Suspense, useState } from "react";
+import lazy from "react-lazy-named";
 import useForm from "../hooks/useForm";
-import useFetch from "../hooks/useFetch";
 import useKeyPress from "../hooks/useKeyPress";
 import validate from "../helpers/newEmployeeFormValidation";
 import styled from "styled-components";
+
+const Formzie = lazy(()=>
+	import ("react-formzie"),'Formzie');
+const InputField = lazy(()=>
+	import ("react-formzie"),'InputField');
+const Modal = lazy(()=>
+	import ("react-formzie"),'Modal');
 
 const FormContainer = styled.div`
   display: flex,
@@ -13,7 +19,7 @@ const FormContainer = styled.div`
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
 
-const NewEmployee = () => {
+const NewEmployee = React.memo(() => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { handleChange, values, errors } = useForm(validate);
 	const { keyPressed } = useKeyPress("Escape");
@@ -132,7 +138,7 @@ const NewEmployee = () => {
 			</Suspense>
 		</>
 	);
-};
+});
 
 export default NewEmployee;
 
