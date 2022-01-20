@@ -5,12 +5,9 @@ import useKeyPress from "../hooks/useKeyPress";
 import validate from "../helpers/newEmployeeFormValidation";
 import styled from "styled-components";
 
-const Formzie = lazy(()=>
-	import ("react-formzie"),'Formzie');
-const InputField = lazy(()=>
-	import ("react-formzie"),'InputField');
-const Modal = lazy(()=>
-	import ("react-formzie"),'Modal');
+const Formzie = lazy(() => import("react-formzie"), "Formzie");
+const InputField = lazy(() => import("react-formzie"), "InputField");
+const Modal = lazy(() => import("react-formzie"), "Modal");
 
 const FormContainer = styled.div`
   display: flex,

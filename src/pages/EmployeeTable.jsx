@@ -1,92 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { sortArray } from "../helpers/sortEmployeeHeaders";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faSort } from '@fortawesome/free-solid-svg-icons'
-import './styles/tableStyle.css'
 import { searchEmployee } from "../helpers/searchEmployee";
 import { siblingNodeDirection } from "../helpers/siblingNodeDirection";
-
-const sortIcon = <FontAwesomeIcon className="sort-icon" icon={faSort} />
+import Pagination from "../components/Pagination";
+import Table from "../components/Table";
+import "./styles/tableStyle.css";
 
 const EmployeeTable = React.memo(({ data }) => {
+	const [currentRows, setCurrentRows] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const [sortDirection, setSortDirection] = useState("");
+	const [searchKey, setSearchKey] = useState("");
 
-	const [sortedData, setSortedData ] = useState([]);
-	const [sortDirection, setSortDirection] = useState("")
-	const [searchKey, setSearchKey] = useState("")
+	const indexofLastRow = currentPage * rowsPerPage;
+	const indexOfFirstRow = indexofLastRow - rowsPerPage;
+	const totalRows = Math.ceil(data.body.length);
+
+	useEffect(
+		(currentPage, rowsPerPage) => {
+			setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+		},
+		[currentPage, rowsPerPage]
+	);
 
 	const handleClick = (e) => {
-		const value = e.target.innerText.toLowerCase().replace(/\s+/g, '');
-		
-		setSortDirection(siblingNodeDirection(e))	
+		const value = e.target.innerText.toLowerCase().replace(/\s+/g, "");
 
-		if (searchKey.length > 0){
-			setSortedData (sortArray(value, sortedData, sortDirection))
+		setSortDirection(siblingNodeDirection(e));
+
+		if (searchKey.length > 0) {
+			setCurrentRows(sortArray(value, currentRows, sortDirection));
 		} else {
-		setSortedData (sortArray(value, data.body, sortDirection))
+			setCurrentRows(sortArray(value, currentRows, sortDirection));
 		}
 	};
 
+	const handleChange = (e) => {
+		setSearchKey(e.target.value);
 
+		searchKey
+			? setCurrentRows(searchEmployee(data.body, searchKey))
+			: setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+	};
 
-const handleChange = (e) => {
-	setSearchKey(e.target.value);
-	setSortedData(searchEmployee(data.body, searchKey))
-}
+	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+	const rowChange = (e) => {
+		setRowsPerPage(e.target.value);
+		setCurrentPage(1);
+	};
+
+	const tableConfig = [
+		{ header: "City", field: "city" },
+		{ header: "Date of Birth", field: "birthDate" },
+		{ header: "Department", field: "deparment" },
+		{ header: "First Name", field: "firstName" },
+		{ header: "Last Name", field: "lastName" },
+		{ header: "Start Date", field: "startDay" },
+		{ header: "State", field: "state" },
+		{ header: "Street", field: "Street" },
+		{ header: "Zip Code", field: "zipCode" },
+	];
 
 	return (
 		<>
-			<label>Search</label>
-			<input type="search" onKeyUp={handleChange}></input>
-		<table >
-			<thead>
-				<tr>
-					<th onClick={handleClick}>City <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>Date of Birth <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>Department <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>First Name <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>Last Name <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>Start Date <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>State <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>Street <span>{sortIcon}</span></th>
-					<th onClick={handleClick}>Zip Code <span>{sortIcon}</span></th>
-				</tr>
-			</thead>
-			<tbody>
-				{ !sortedData.length ?   data.body.map((employee, i) => {
-				const {city, birthDate, department, firstName, lastName, startDay, state, street, zipCode} = employee;		
-					return (
-						<tr className="row-data" key={`row-${i}`}>
-							<td>{city} </td> 
-							<td>{birthDate}</td>
-							<td>{department}</td>
-							<td>{firstName}</td>
-							<td>{lastName}</td>
-							<td>{startDay}</td>
-							<td>{state}</td>
-							<td>{street}</td>
-							<td>{zipCode}</td>
-						</tr> 
-					)
-				}) : sortedData.map((employee, i) => {
-					const {city, birthDate, department, firstName, lastName, startDay, state, street, zipCode} = employee;		
-						return (
-							<tr className="row-data" key={`row-${i}`}>
-								<td>{city}</td> 
-								<td>{birthDate}</td>
-								<td>{department}</td>
-								<td>{firstName}</td>
-								<td>{lastName}</td>
-								<td>{startDay}</td>
-								<td>{state}</td>
-								<td>{street}</td>
-								<td>{zipCode}</td>
-							</tr> 
-						)
-					})}
-			</tbody>
-		</table>
+			<Table
+				tableConfig={tableConfig}
+				onClick={handleClick}
+				onChange={handleChange}
+				data={currentRows}
+			/>
+			<Pagination
+				totalRows={totalRows}
+				rowsPerPage={rowsPerPage}
+				paginate={paginate}
+				onChange={rowChange}
+			/>
 		</>
 	);
 });
 
-export default EmployeeTable ;
+export default EmployeeTable;
