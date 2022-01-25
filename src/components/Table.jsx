@@ -13,12 +13,16 @@ const Table = ({ tableConfig, onClick, onChange, data }) => {
 		rowFields.push(field);
 	}
 
-	console.log(data);
-
 	return (
 		<>
-			<label>Search</label>
-			<input type='search' onKeyUp={onChange}></input>
+			<div className='search-container'>
+				<label className='search-label'>Search</label>
+				<input
+					className='search-input'
+					type='search'
+					onKeyUp={onChange}
+				></input>
+			</div>
 			{data && (
 				<table>
 					<thead>

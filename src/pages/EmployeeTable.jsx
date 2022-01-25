@@ -4,7 +4,13 @@ import { searchEmployee } from "../helpers/searchEmployee";
 import { siblingNodeDirection } from "../helpers/siblingNodeDirection";
 import Pagination from "../components/Pagination";
 import Table from "../components/Table";
+import styled from "styled-components";
 import "./styles/tableStyle.css";
+
+const DivContainer = styled.div`
+	margin: 0 auto;
+	width: 85%;
+`;
 
 const EmployeeTable = React.memo(({ data }) => {
 	const [currentRows, setCurrentRows] = useState([]);
@@ -17,12 +23,9 @@ const EmployeeTable = React.memo(({ data }) => {
 	const indexOfFirstRow = indexofLastRow - rowsPerPage;
 	const totalRows = Math.ceil(data.body.length);
 
-	useEffect(
-		(currentPage, rowsPerPage) => {
-			setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
-		},
-		[currentPage, rowsPerPage]
-	);
+	useEffect(() => {
+		setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+	}, [currentPage, rowsPerPage]);
 
 	const handleClick = (e) => {
 		const value = e.target.innerText.toLowerCase().replace(/\s+/g, "");
@@ -65,18 +68,21 @@ const EmployeeTable = React.memo(({ data }) => {
 
 	return (
 		<>
-			<Table
-				tableConfig={tableConfig}
-				onClick={handleClick}
-				onChange={handleChange}
-				data={currentRows}
-			/>
-			<Pagination
-				totalRows={totalRows}
-				rowsPerPage={rowsPerPage}
-				paginate={paginate}
-				onChange={rowChange}
-			/>
+			<DivContainer>
+				<Table
+					tableConfig={tableConfig}
+					onClick={handleClick}
+					onChange={handleChange}
+					data={currentRows}
+				/>
+				<Pagination
+					totalRows={totalRows}
+					rowsPerPage={rowsPerPage}
+					currentPage={currentPage}
+					paginate={paginate}
+					onChange={rowChange}
+				/>
+			</DivContainer>
 		</>
 	);
 });

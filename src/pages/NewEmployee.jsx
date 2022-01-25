@@ -4,14 +4,25 @@ import useForm from "../hooks/useForm";
 import useKeyPress from "../hooks/useKeyPress";
 import validate from "../helpers/newEmployeeFormValidation";
 import styled from "styled-components";
-
+import { Link, NavLink } from "react-router-dom";
 const Formzie = lazy(() => import("react-formzie"), "Formzie");
 const InputField = lazy(() => import("react-formzie"), "InputField");
 const Modal = lazy(() => import("react-formzie"), "Modal");
 
+const Main = styled.main`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	background-color: rgba(255, 165, 2, 0.5);
+`;
+
 const FormContainer = styled.div`
   display: flex,
-  justifyContent: center,
+  justifyContent: center;
+  background-color: #fff;
+  border-radius: 15px;
+  margin: 2em 3em;
+  width: 450px;
 `;
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
@@ -52,7 +63,7 @@ const NewEmployee = React.memo(() => {
 	}
 
 	return (
-		<>
+		<Main>
 			<Suspense fallback={<div>...Loading</div>}>
 				<FormContainer>
 					<Formzie title={"Formzie"}>
@@ -133,7 +144,7 @@ const NewEmployee = React.memo(() => {
 					</Modal>
 				)}
 			</Suspense>
-		</>
+		</Main>
 	);
 });
 
