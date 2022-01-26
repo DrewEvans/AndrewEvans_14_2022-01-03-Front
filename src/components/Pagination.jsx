@@ -1,95 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+
 import "../pages/styles/paginationStyle.css";
 
+const angleLeft = <FontAwesomeIcon icon={faAngleLeft} />;
+const angleRight = <FontAwesomeIcon icon={faAngleRight} />;
+
 const Pagination = ({
-	totalRows,
-	rowsPerPage,
-	paginate,
-	currentPage,
-	onChange,
+  totalRows,
+  rowsPerPage,
+  paginate,
+  currentPage,
+  onChange,
 }) => {
-	const numberOfPages = [];
+  let [num, setNum] = useState(1);
+  const numberOfPages = [];
+  const pagesToDisplay = [
+    { page: num },
+    { page: num + 1 },
+    { page: num + 2 },
+   
+  ];
 
-	for (let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
-		numberOfPages.push(i);
-	}
+  // Math.ceil(parseInt(rowsPerPage) % numberOfPages.length) + 1;
+  const next = () => {
+    setNum(++num);
+  };
 
-	return (
-		<div className='container'>
-			<div className='select-container'>
-				<label htmlFor='rows-per-page' className='page-label'>
-					Rows per Page:
-				</label>
-				<select
-					className='page-select'
-					name='rows'
-					id='rowNum-select'
-					onChange={onChange}
-				>
-					<option value='10'>10</option>
-					<option value='5'>5</option>
-					<option value='20'>20</option>
-					<option value='50'>50</option>
-				</select>
-			</div>
-			<ul>
-				{numberOfPages.at(0) === currentPage && (
-					<>
-						<li onClick={() => paginate(currentPage)}>
-							{currentPage}
-						</li>
+  const prev = () => {
+    num > 1 && setNum(--num);
+  };
 
-						<li onClick={() => paginate(currentPage + 1)}>
-							{currentPage + 1}
-						</li>
-						<li onClick={() => paginate(currentPage + 2)}>
-							{currentPage + 2}
-						</li>
-					</>
-				)}
+  for (let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
+    numberOfPages.push(i);
+  }
 
-				{numberOfPages.at(-1) !== currentPage &&
-					numberOfPages.at(0) !== currentPage && (
-						<>
-							<li onClick={() => paginate(currentPage - 1)}>
-								{currentPage - 1}
-							</li>
-							<li onClick={() => paginate(currentPage)}>
-								{currentPage}
-							</li>
-							<li onClick={() => paginate(currentPage + 1)}>
-								{currentPage + 1}
-							</li>
-						</>
-					)}
 
-				{numberOfPages.at(-1) === currentPage && (
-					<>
-						<li onClick={() => paginate(currentPage - 2)}>
-							{currentPage - 2}
-						</li>
-						<li onClick={() => paginate(currentPage - 1)}>
-							{currentPage - 1}
-						</li>
-						<li onClick={() => paginate(currentPage)}>
-							{currentPage}
-						</li>
-					</>
-				)}
-
-				{/* {numberOfPages.map((pageNumber) => {
-					return (
-						<li
-							key={pageNumber}
-							onClick={() => paginate(pageNumber)}
-						>
-							{pageNumber}
-						</li>
-					);
-				})} */}
-			</ul>
-		</div>
-	);
+  
+  return (
+    <div className='container'>
+      <div className='select-container'>
+        <label htmlFor='rows-per-page' className='page-label'>
+          Rows per Page:
+        </label>
+        <select
+          className='page-select'
+          name='rows'
+          id='rowNum-select'
+          onChange={onChange}>
+          <option value='10'>10</option>
+          <option value='5'>5</option>
+          <option value='20'>20</option>
+          <option value='50'>50</option>
+        </select>
+      </div>
+      <div>
+        <button disabled={numberOfPages.at(0) === currentPage} onClick={ () =>(prev(), paginate(currentPage - 1))} >{angleLeft}</button>
+        {numberOfPages.length <=  1 ? <button>{currentPage}</button> : console.log("render"), pagesToDisplay.map((pg, i) => {
+		return (<button
+		key={i++}
+		onClick={() => (paginate(pg.page))}
+		>
+		{pg.page}
+		</button>)
+	})}
+	
+        <button onClick={() =>(next(), paginate(currentPage + 1))} disabled={numberOfPages.at(-1) === currentPage}>{angleRight}</button>
+      </div>
+    </div>
+  );
 };
 
 export default Pagination;
