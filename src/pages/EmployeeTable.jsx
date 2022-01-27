@@ -12,6 +12,11 @@ const DivContainer = styled.div`
 	width: 85%;
 `;
 
+const Header = styled.h1`
+	display: flex;
+	justify-content: center;
+`;
+
 const EmployeeTable = React.memo(({ data }) => {
 	const [currentRows, setCurrentRows] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -68,6 +73,7 @@ const EmployeeTable = React.memo(({ data }) => {
 
 	return (
 		<>
+			<Header>Current Employees</Header>
 			<DivContainer>
 				<Table
 					tableConfig={tableConfig}

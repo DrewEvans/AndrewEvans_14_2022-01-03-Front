@@ -1,10 +1,12 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useCallback } from "react";
 import lazy from "react-lazy-named";
 import useForm from "../hooks/useForm";
 import useKeyPress from "../hooks/useKeyPress";
 import validate from "../helpers/newEmployeeFormValidation";
 import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
+import axios from "axios";
+import usePost from "../hooks/usePost";
 const Formzie = lazy(() => import("react-formzie"), "Formzie");
 const InputField = lazy(() => import("react-formzie"), "InputField");
 const Modal = lazy(() => import("react-formzie"), "Modal");
@@ -25,10 +27,20 @@ const FormContainer = styled.div`
   width: 450px;
 `;
 
+const ModalAlert = styled.p`
+	display: flex;
+	justify-content: center;
+`;
+
 const list = ["Sales", "HR", "Marketing", "Finance"];
 
 const NewEmployee = React.memo(() => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [res, setRes] = useState({
+		data: null,
+		error: null,
+		isLoading: false,
+	});
 	const { handleChange, values, errors } = useForm(validate);
 	const { keyPressed } = useKeyPress("Escape");
 
@@ -40,7 +52,6 @@ const NewEmployee = React.memo(() => {
 			e.target.classList.contains("wrapper")
 		) {
 			setIsOpen(false);
-			values = {};
 		}
 	};
 
@@ -50,8 +61,32 @@ const NewEmployee = React.memo(() => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		setRes((prevState) => ({ ...prevState, isLoading: true }));
+		axios
+			.post("http://localhost:5000/api/employees/create", {
+				city: values.city,
+				dateOfBirth: values.dateOfBirth,
+				department: values.department,
+				firstName: values.firstName,
+				lastName: values.lastName,
+				startDay: values.startDate,
+				state: values.state,
+				street: values.street,
+				zipCode: values.zipCode,
+			})
+			.then((res) => {
+				setRes({ data: res, isLoading: false, error: null });
+			})
+			.catch((error) => {
+				setRes({ data: null, isLoading: false, error });
+			});
+
 		handleOpen();
 	};
+
+	console.log(values);
+	console.log(res);
 
 	const statesArray = [];
 
@@ -140,7 +175,26 @@ const NewEmployee = React.memo(() => {
 				</FormContainer>
 				{isOpen && (
 					<Modal onClick={handleOpen}>
-						<p>i need this to go </p>
+						{res.data && (
+							<div>
+								<strong>{res.data.data.message}:</strong>
+								<p>
+									{res.data.data.body.firstName}{" "}
+									{res.data.data.body.lastName} can be viewed
+									on the{" "}
+									<NavLink to='employee-table'>
+										Current Employees
+									</NavLink>{" "}
+									table
+								</p>
+							</div>
+						)}
+						{res.error && (
+							<div>
+								<strong>Missing Information:</strong>
+								<p>Ensure all fields are filled in correctly</p>
+							</div>
+						)}
 					</Modal>
 				)}
 			</Suspense>
