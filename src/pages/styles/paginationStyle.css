@@ -1,134 +1,134 @@
 .container {
-	display: flex;
-	margin: 1em 0;
-	flex-direction: column;
-	justify-content: center;
-	align-items: flex-end;
-	color: #1c1919;
+  display: flex;
+  margin: 1em 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  color: #1c1919;
 }
 
 .select-container {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .display-text {
 }
 .select-options {
-	display: flex;
+  display: flex;
 }
 
 .page-label {
-	display: flex;
-	font-family: inherit;
-	font-size: 0.95em;
-	font-weight: 500;
-	padding: 0.6em;
-	justify-self: end;
-	transition: all 0.2s ease-in-out;
+  display: flex;
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 0.6em;
+  justify-self: end;
+  transition: all 0.2s ease-in-out;
 }
 select {
-	margin: 0 0.25em;
-	font-family: inherit;
-	font-size: 0.95em;
-	font-weight: 500;
-	line-height: 1.4;
-	border: 1px solid #e5e5e5;
-	border-radius: 3px;
-	justify-self: flex-end;
-	transition: all 0.2s ease-in-out;
+  margin: 0 0.25em;
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 500;
+  line-height: 1.4;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  justify-self: flex-end;
+  transition: all 0.2s ease-in-out;
 }
 
 select:focus,
 select:active {
-	outline: 0;
-	border-color: #0f0f0f;
+  outline: 0;
+  border-color: #0f0f0f;
 }
 
 .page-select,
 option {
-	margin: 0 0.25em;
-	font-family: inherit;
-	font-weight: 500;
-	padding: 0.6em;
-	line-height: 1.4;
-	border: 1px solid #e5e5e5;
-	border-radius: 3px;
-	transition: all 0.2s ease-in-out;
+  margin: 0 0.25em;
+  font-family: inherit;
+  font-weight: 500;
+  padding: 0.6em;
+  line-height: 1.4;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
 }
 
 ul {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	padding: 0;
-	align-content: flex-end;
-	justify-content: flex-end;
-	border-radius: 0.6rem;
-	background: #ffffff;
-	box-shadow: 0 0.8rem 2rem rgba(#5a6181);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+  align-content: flex-end;
+  justify-content: flex-end;
+  border-radius: 0.6rem;
+  background: #ffffff;
+  box-shadow: 0 0.8rem 2rem rgba(#5a6181);
 }
 
 li {
-	list-style: none;
-	font-weight: 500;
-	width: 1.5em;
-	height: 1.5em;
-	margin: 0.25em;
-	padding: 0.5em;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-self: center;
-	justify-content: center;
-	border: 2px solid #1c1919;
-	border-radius: 100%;
-	cursor: pointer;
-	transition: all 0.2s ease-in;
+  list-style: none;
+  font-weight: 500;
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0.25em;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: center;
+  justify-content: center;
+  border: 2px solid #1c1919;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
 }
 
 .pagination-directions {
-	margin: 0.5em 0;
-	display: flex;
-	flex-direction: row;
-	align-self: center;
+  margin: 0.5em 0;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
 }
 
 .direction-left,
 .direction-right,
 .current-center {
-	padding: 0.75em 1em;
-	font-family: inherit;
-	font-size: 0.95em;
-	font-weight: 500;
-	line-height: 1.4;
-	background-color: #ffffff;
-	border: 1px solid #1c1919;
-	justify-self: flex-end;
-	transition: all 0.2s ease-in-out;
+  padding: 0.75em 1em;
+  font-family: inherit;
+  font-size: 0.95em;
+  font-weight: 500;
+  line-height: 1.4;
+  background-color: #ffffff;
+  border: 1px solid #1c1919;
+  justify-self: flex-end;
+  transition: all 0.2s ease-in-out;
 }
 
 .direction-left {
-	border-bottom-left-radius: 15px;
-	border-start-start-radius: 15px;
+  border-bottom-left-radius: 15px;
+  border-start-start-radius: 15px;
 }
 .direction-right {
-	border-end-end-radius: 15px;
-	border-start-end-radius: 15px;
+  border-end-end-radius: 15px;
+  border-start-end-radius: 15px;
 }
 
 .current-center {
-	color: white;
-	background-color: #4b1010;
+  color: white;
+  background-color: #1c1919;
 }
 
 .direction-left:active,
 .direction-left:hover,
 .direction-right:active,
 .direction-right:hover {
-	color: white;
-	background-color: #1c1919;
+  color: white;
+  background-color: #1c1919;
 }

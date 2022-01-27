@@ -1,18 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { sortArray } from "../helpers/sortEmployeeHeaders";
 import { searchEmployee } from "../helpers/searchEmployee";
 import { siblingNodeDirection } from "../helpers/siblingNodeDirection";
-import Pagination from "../components/Pagination";
-import Table from "../components/Table";
 import styled from "styled-components";
 import "./styles/tableStyle.css";
 
+const Pagination = lazy(()=> import("../components/Pagination"));
+const Table = lazy(()=> import("../components/Table"));
+
+const Main = styled.main`
+margin: 0;
+background-color: #93ad16;
+`
+
 const DivContainer = styled.div`
 	margin: 0 auto;
+	margin-bottom 2em;
+	padding: .5em;
 	width: 85%;
+	background-color: #fff;
+	border-radius: 15px;
+	box-shawdow: 0 6px 20px -5px rgb(0 0 0 / 40%);
 `;
 
 const Header = styled.h1`
+	color: #f2f2f2;	
 	display: flex;
 	justify-content: center;
 `;
@@ -72,15 +84,18 @@ const EmployeeTable = React.memo(({ data }) => {
 	];
 
 	return (
-		<>
+		<Main>
 			<Header>Current Employees</Header>
 			<DivContainer>
+				<Suspense fallback={<>...loading</>}>
 				<Table
 					tableConfig={tableConfig}
 					onClick={handleClick}
 					onChange={handleChange}
 					data={currentRows}
 				/>
+				</Suspense>
+				<Suspense fallback={<>...loading</>}>
 				<Pagination
 					totalRows={totalRows}
 					rowsPerPage={rowsPerPage}
@@ -88,8 +103,9 @@ const EmployeeTable = React.memo(({ data }) => {
 					paginate={paginate}
 					onChange={rowChange}
 				/>
+				</Suspense>
 			</DivContainer>
-		</>
+		</Main>
 	);
 });
 

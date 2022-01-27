@@ -1,35 +1,101 @@
-import React, { Suspense, useState, useCallback } from "react";
+import React, { Suspense, useState } from "react";
+import { NavLink , useNavigate } from "react-router-dom";
 import lazy from "react-lazy-named";
+import axios from "axios";
 import useForm from "../hooks/useForm";
 import useKeyPress from "../hooks/useKeyPress";
 import validate from "../helpers/newEmployeeFormValidation";
 import styled from "styled-components";
-import { Link, NavLink } from "react-router-dom";
-import axios from "axios";
-import usePost from "../hooks/usePost";
+import heroImage from "../assets/9814.jpg"
+
 const Formzie = lazy(() => import("react-formzie"), "Formzie");
 const InputField = lazy(() => import("react-formzie"), "InputField");
 const Modal = lazy(() => import("react-formzie"), "Modal");
 
 const Main = styled.main`
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	background-color: rgba(255, 165, 2, 0.5);
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+margin-top: 3em;
 `;
+
+const BottomCurve = styled.div`
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 300px;
+background-color: #93ad16;
+clip-path: ellipse(141% 100% at 140.09% 100%);
+z-index: -1000;
+`
+const TopCurve = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 300px;
+background-color: #818f3a;
+clip-path: ellipse(55% 65% at 35% 15%);
+z-index: -1000;
+`
+
+const HeroContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-self: flex-start;
+margin-top: 5em;
+`
+
+const HeroHeader = styled.h1`
+margin: 0 0 4em 0;
+font-size: 2em;
+color: white;
+`
+
+const HeroImg = styled.img`
+font-size: 2em;
+color: #93ad16;
+width: 450px;
+`
+
+const HeroButton = styled.button`
+font-family: inherit;
+width: 50%;
+align-self: center;
+height: 2em;
+border: none;
+border-radius: 3px;
+outline: none;
+background:  #93ad16;
+color: #fff;
+font-size: 1.25em;
+margin: 1em 0;
+text-align: center;
+box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.6);
+position: relative;
+overflow: hidden;
+cursor: pointer;
+transition: all 0.15s ease-in-out;
+
+&:hover {
+	background-color: #818f3a;
+	transform: translateY(-3px) ;
+	box-shadow: 2px 6px 20px -5px rgba(0, 0, 0, 0.8);
+}
+`
 
 const FormContainer = styled.div`
-  display: flex,
-  justifyContent: center;
-  background-color: #fff;
-  border-radius: 15px;
-  margin: 2em 3em;
-  width: 450px;
-`;
+display: flex,
+justifyContent: center;
+background-color: #fff;
+border-radius: 15px;
+margin-top: 1.55em;
 
-const ModalAlert = styled.p`
-	display: flex;
-	justify-content: center;
+width: 450px;
+height: 850px;
+box-shadow: 2px 6px 20px -5px rgba(0, 0, 0, 0.6);
 `;
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
@@ -43,6 +109,16 @@ const NewEmployee = React.memo(() => {
 	});
 	const { handleChange, values, errors } = useForm(validate);
 	const { keyPressed } = useKeyPress("Escape");
+	const statesArray = [];
+
+	
+		for (const key in states) {
+			if (Object.hasOwnProperty.call(states, key)) {
+				const element = states[key];
+				statesArray.push(`${element.abbreviation} - ${element.name}`);
+			}
+		}
+	
 
 	const handleOpen = (e) => {
 		if (!isOpen) {
@@ -52,6 +128,11 @@ const NewEmployee = React.memo(() => {
 			e.target.classList.contains("wrapper")
 		) {
 			setIsOpen(false);
+		}
+		
+		if(((e.target.classList.contains("modal-cross")) ||
+		e.target.classList.contains("wrapper")) && res.data.data.status === 200 ){
+			console.log("reload")
 		}
 	};
 
@@ -88,20 +169,24 @@ const NewEmployee = React.memo(() => {
 	console.log(values);
 	console.log(res);
 
-	const statesArray = [];
+	const navigate = useNavigate();
 
-	for (const key in states) {
-		if (Object.hasOwnProperty.call(states, key)) {
-			const element = states[key];
-			statesArray.push(`${element.abbreviation} - ${element.name}`);
-		}
-	}
+    const handleClick = () => {
+        navigate("/employee-table");
+    }
 
 	return (
 		<Main>
+			<TopCurve></TopCurve>
 			<Suspense fallback={<div>...Loading</div>}>
+
+				<HeroContainer>
+					<HeroHeader>New Employee Creation Form</HeroHeader>
+					<HeroImg src={heroImage} alt="hero-image" />
+					<HeroButton onClick={handleClick} type="button">View All Employees</HeroButton>
+				</HeroContainer>
 				<FormContainer>
-					<Formzie title={"Formzie"}>
+					<Formzie>
 						<InputField
 							controlType={"input"}
 							labelHeader='First Name'
@@ -173,6 +258,8 @@ const NewEmployee = React.memo(() => {
 						/>
 					</Formzie>
 				</FormContainer>
+				</Suspense>
+				<Suspense fallback={<div>...Loading</div>}>
 				{isOpen && (
 					<Modal onClick={handleOpen}>
 						{res.data && (
@@ -197,7 +284,8 @@ const NewEmployee = React.memo(() => {
 						)}
 					</Modal>
 				)}
-			</Suspense>
+				</Suspense>
+				<BottomCurve></BottomCurve>
 		</Main>
 	);
 });

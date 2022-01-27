@@ -1,6 +1,7 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import lazy from "react-lazy-named";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
+const FontAwesomeIcon = lazy(() => import("@fortawesome/react-fontawesome"), "FontAwesomeIcon");
 
 const sortIcon = <FontAwesomeIcon className='sort-icon' icon={faSort} />;
 
