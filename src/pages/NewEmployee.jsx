@@ -17,6 +17,13 @@ display: flex;
 flex-direction: row;
 justify-content: space-around;
 margin-top: 3em;
+
+@media (min-width: 320px) and (max-width: 768px) {
+    flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 1em;
+  }
 `;
 
 const BottomCurve = styled.div`
@@ -25,7 +32,7 @@ bottom: 0;
 left: 0;
 width: 100%;
 height: 300px;
-background-color: #93ad16;
+background-color: #818f3a;
 clip-path: ellipse(141% 100% at 140.09% 100%);
 z-index: -1000;
 `
@@ -35,9 +42,14 @@ top: 0;
 left: 0;
 width: 100%;
 height: 300px;
-background-color: #818f3a;
+background-color: #93ad16;
 clip-path: ellipse(55% 65% at 35% 15%);
 z-index: -1000;
+
+@media (min-width: 320px) and (max-width: 768px) {
+	clip-path: ellipse(85% 65% at 35% 15%);
+   }
+
 `
 
 const HeroContainer = styled.div`
@@ -46,18 +58,29 @@ flex-direction: column;
 justify-content: center;
 align-self: flex-start;
 margin-top: 5em;
+@media (min-width: 320px) and (max-width: 768px) {
+    align-self: center;
+  }
 `
 
 const HeroHeader = styled.h1`
 margin: 0 0 4em 0;
 font-size: 2em;
 color: white;
+@media (min-width: 320px) and (max-width: 768px) {
+   margin: 0em 1em 1em 1em;
+   text-align: center;
+  }
 `
 
 const HeroImg = styled.img`
 font-size: 2em;
 color: #93ad16;
 width: 450px;
+@media (min-width: 320px) and (max-width: 768px) {
+    visibility: hidden;
+	display: none;
+  }
 `
 
 const HeroButton = styled.button`
@@ -84,6 +107,10 @@ transition: all 0.15s ease-in-out;
 	transform: translateY(-3px) ;
 	box-shadow: 2px 6px 20px -5px rgba(0, 0, 0, 0.8);
 }
+
+@media (min-width: 320px) and (max-width: 768px) {
+	background-color: #818f3a;
+	  }
 `
 
 const FormContainer = styled.div`
@@ -92,10 +119,14 @@ justifyContent: center;
 background-color: #fff;
 border-radius: 15px;
 margin-top: 1.55em;
-
 width: 450px;
 height: 850px;
 box-shadow: 2px 6px 20px -5px rgba(0, 0, 0, 0.6);
+
+@media (min-width: 320px) and (max-width: 768px) {
+margin: 0;
+width: 365px;
+  }
 `;
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
@@ -178,13 +209,12 @@ const NewEmployee = React.memo(() => {
 	return (
 		<Main>
 			<TopCurve></TopCurve>
-			<Suspense fallback={<div>...Loading</div>}>
-
 				<HeroContainer>
 					<HeroHeader>New Employee Creation Form</HeroHeader>
 					<HeroImg src={heroImage} alt="hero-image" />
 					<HeroButton onClick={handleClick} type="button">View All Employees</HeroButton>
 				</HeroContainer>
+			<Suspense fallback={<div>...Loading</div>}>
 				<FormContainer>
 					<Formzie>
 						<InputField
@@ -259,7 +289,7 @@ const NewEmployee = React.memo(() => {
 					</Formzie>
 				</FormContainer>
 				</Suspense>
-				<Suspense fallback={<div>...Loading</div>}>
+				<Suspense fallback={<></>}>
 				{isOpen && (
 					<Modal onClick={handleOpen}>
 						{res.data && (

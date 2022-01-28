@@ -10,7 +10,6 @@ const App = () => {
   const { data, loading } = useFetch("http://localhost:5000/api/employees");
   return (
     <BrowserRouter>
-      <MaterialNav />
       <Suspense fallback={<div>...loading</div>}>
         <Routes>
           <Route path='/' element={<NewEmployee />} />

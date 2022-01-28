@@ -10,21 +10,46 @@ const Table = lazy(()=> import("../components/Table"));
 
 const Main = styled.main`
 margin: 0;
+`
+const BottomCurve = styled.div`
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 300px;
+background-color: #818f3a;
+clip-path: ellipse(140% 50% at 140.09% 100%);
+z-index: -1000;
+`
+const TopCurve = styled.div`
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 300px;
 background-color: #93ad16;
+clip-path: ellipse(141% 55% at 140% 1%);
+z-index: -1000;
+
+@media (min-width: 320px) and (max-width: 768px) {
+	clip-path: ellipse(85% 65% at 35% 15%);
+   }
+
 `
 
 const DivContainer = styled.div`
 	margin: 0 auto;
 	margin-bottom 2em;
 	padding: .5em;
-	width: 85%;
+	width: 90%;
+	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
 	background-color: #fff;
-	border-radius: 15px;
-	box-shawdow: 0 6px 20px -5px rgb(0 0 0 / 40%);
+	border-radius: 10px;
+	border: 1px solid rgba( 255, 255, 255, 0.18 );
 `;
 
 const Header = styled.h1`
-	color: #f2f2f2;	
+	color: #f0f0f0;	
 	display: flex;
 	justify-content: center;
 `;
@@ -85,6 +110,7 @@ const EmployeeTable = React.memo(({ data }) => {
 
 	return (
 		<Main>
+			<TopCurve/>
 			<Header>Current Employees</Header>
 			<DivContainer>
 				<Suspense fallback={<>...loading</>}>
@@ -95,7 +121,7 @@ const EmployeeTable = React.memo(({ data }) => {
 					data={currentRows}
 				/>
 				</Suspense>
-				<Suspense fallback={<>...loading</>}>
+				<Suspense fallback={<></>}>
 				<Pagination
 					totalRows={totalRows}
 					rowsPerPage={rowsPerPage}
@@ -105,6 +131,7 @@ const EmployeeTable = React.memo(({ data }) => {
 				/>
 				</Suspense>
 			</DivContainer>
+			<BottomCurve/>
 		</Main>
 	);
 });
