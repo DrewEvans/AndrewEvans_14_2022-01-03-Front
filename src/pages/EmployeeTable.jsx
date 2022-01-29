@@ -5,37 +5,36 @@ import { siblingNodeDirection } from "../helpers/siblingNodeDirection";
 import styled from "styled-components";
 import "./styles/tableStyle.css";
 
-const Pagination = lazy(()=> import("../components/Pagination"));
-const Table = lazy(()=> import("../components/Table"));
+const Pagination = lazy(() => import("../components/Pagination"));
+const Table = lazy(() => import("../components/Table"));
 
 const Main = styled.main`
-margin: 0;
-`
+	margin: 0;
+`;
 const BottomCurve = styled.div`
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 300px;
-background-color: #818f3a;
-clip-path: ellipse(140% 50% at 140.09% 100%);
-z-index: -1000;
-`
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 300px;
+	background-color: #818f3a;
+	clip-path: ellipse(140% 50% at 140.09% 100%);
+	z-index: -1000;
+`;
 const TopCurve = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 300px;
-background-color: #93ad16;
-clip-path: ellipse(141% 55% at 140% 1%);
-z-index: -1000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 300px;
+	background-color: #93ad16;
+	clip-path: ellipse(141% 55% at 140% 1%);
+	z-index: -1000;
 
-@media (min-width: 320px) and (max-width: 768px) {
-	clip-path: ellipse(85% 65% at 35% 15%);
-   }
-
-`
+	@media (min-width: 320px) and (max-width: 768px) {
+		clip-path: ellipse(85% 65% at 35% 15%);
+	}
+`;
 
 const DivContainer = styled.div`
 	margin: 0 auto;
@@ -49,7 +48,7 @@ const DivContainer = styled.div`
 `;
 
 const Header = styled.h1`
-	color: #f0f0f0;	
+	color: #f0f0f0;
 	display: flex;
 	justify-content: center;
 `;
@@ -67,6 +66,7 @@ const EmployeeTable = React.memo(({ data }) => {
 
 	useEffect(() => {
 		setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentPage, rowsPerPage]);
 
 	const handleClick = (e) => {
@@ -110,28 +110,28 @@ const EmployeeTable = React.memo(({ data }) => {
 
 	return (
 		<Main>
-			<TopCurve/>
+			<TopCurve />
 			<Header>Current Employees</Header>
 			<DivContainer>
 				<Suspense fallback={<>...loading</>}>
-				<Table
-					tableConfig={tableConfig}
-					onClick={handleClick}
-					onChange={handleChange}
-					data={currentRows}
-				/>
+					<Table
+						tableConfig={tableConfig}
+						onClick={handleClick}
+						onChange={handleChange}
+						data={currentRows}
+					/>
 				</Suspense>
 				<Suspense fallback={<></>}>
-				<Pagination
-					totalRows={totalRows}
-					rowsPerPage={rowsPerPage}
-					currentPage={currentPage}
-					paginate={paginate}
-					onChange={rowChange}
-				/>
+					<Pagination
+						totalRows={totalRows}
+						rowsPerPage={rowsPerPage}
+						currentPage={currentPage}
+						paginate={paginate}
+						onChange={rowChange}
+					/>
 				</Suspense>
 			</DivContainer>
-			<BottomCurve/>
+			<BottomCurve />
 		</Main>
 	);
 });

@@ -1,12 +1,12 @@
 import React, { Suspense, useState } from "react";
-import { NavLink , useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import lazy from "react-lazy-named";
 import axios from "axios";
 import useForm from "../hooks/useForm";
 import useKeyPress from "../hooks/useKeyPress";
 import validate from "../helpers/newEmployeeFormValidation";
 import styled from "styled-components";
-import heroImage from "../assets/9814.avif"
+import heroImage from "../assets/9814.avif";
 import { statesArray } from "./statesArray";
 
 const Formzie = lazy(() => import("react-formzie"), "Formzie");
@@ -14,106 +14,107 @@ const InputField = lazy(() => import("react-formzie"), "InputField");
 const Modal = lazy(() => import("react-formzie"), "Modal");
 
 const Main = styled.main`
-display: flex;
-flex-direction: row;
-justify-content: space-around;
-margin-top: 3em;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-top: 3em;
 
-@media (min-width: 320px) and (max-width: 768px) {
-    flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-top: 1em;
-  }
+	@media (min-width: 320px) and (max-width: 768px) {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-top: 1em;
+	}
 `;
 
 const BottomCurve = styled.div`
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 300px;
-background-color: #818f3a;
-clip-path: ellipse(141% 100% at 140.09% 100%);
-z-index: -1000;
-`
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 300px;
+	background-color: #818f3a;
+	clip-path: ellipse(141% 100% at 140.09% 100%);
+	z-index: -1000;
+`;
 const TopCurve = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 300px;
-background-color: #93ad16;
-clip-path: ellipse(55% 65% at 35% 15%);
-z-index: -1000;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 300px;
+	background-color: #93ad16;
+	clip-path: ellipse(55% 65% at 35% 15%);
+	z-index: -1000;
 
-@media (min-width: 320px) and (max-width: 768px) {
-	clip-path: ellipse(85% 65% at 35% 15%);
-   }
-
-`
+	@media (min-width: 320px) and (max-width: 768px) {
+		clip-path: ellipse(85% 65% at 35% 15%);
+	}
+`;
 
 const HeroContainer = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-self: flex-start;
-margin-top: 5em;
-@media (min-width: 320px) and (max-width: 768px) {
-    align-self: center;
-  }
-`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-self: flex-start;
+	margin-top: 5em;
+	@media (min-width: 320px) and (max-width: 768px) {
+		align-self: center;
+	}
+`;
 
 const HeroHeader = styled.h1`
-margin: 0 0 4em 0;
-font-size: 2em;
-color: white;
-@media (min-width: 320px) and (max-width: 768px) {
-   margin: 0em 1em 1em 1em;
-   text-align: center;
-  }
-`
+	margin: 0 0 4em 0;
+	font-size: 2em;
+	color: white;
+	@media (min-width: 320px) and (max-width: 768px) {
+		margin: 0em 1em 1em 1em;
+		text-align: center;
+	}
+`;
 
 const HeroImg = styled.img`
-font-size: 2em;
-color: #93ad16;
-width: 450px;
-height: 325px;
-@media (min-width: 320px) and (max-width: 768px) {
-    visibility: hidden;
-	display: none;
-  }
-`
+	font-size: 2em;
+	color: #93ad16;
+	width: 450px;
+	height: 325px;
+	content: url(${heroImage});
+	@media (min-width: 320px) and (max-width: 768px) {
+		visibility: hidden;
+		display: none;
+		content: url("${heroImage}");
+	}
+`;
 
 const HeroButton = styled.button`
-font-family: inherit;
-width: 50%;
-align-self: center;
-height: 2em;
-border: none;
-border-radius: 3px;
-outline: none;
-background:  #93ad16;
-color: #fff;
-font-size: 1.25em;
-margin: 1em 0;
-text-align: center;
-box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.6);
-position: relative;
-overflow: hidden;
-cursor: pointer;
-transition: all 0.15s ease-in-out;
+	font-family: inherit;
+	width: 50%;
+	align-self: center;
+	height: 2em;
+	border: none;
+	border-radius: 3px;
+	outline: none;
+	background: #93ad16;
+	color: #fff;
+	font-size: 1.25em;
+	margin: 1em 0;
+	text-align: center;
+	box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.6);
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	transition: all 0.15s ease-in-out;
 
-&:hover {
-	background-color: #818f3a;
-	transform: translateY(-3px) ;
-	box-shadow: 2px 6px 20px -5px rgba(0, 0, 0, 0.8);
-}
+	&:hover {
+		background-color: #818f3a;
+		transform: translateY(-3px);
+		box-shadow: 2px 6px 20px -5px rgba(0, 0, 0, 0.8);
+	}
 
-@media (min-width: 320px) and (max-width: 768px) {
-	background-color: #818f3a;
-	  }
-`
+	@media (min-width: 320px) and (max-width: 768px) {
+		background-color: #818f3a;
+	}
+`;
 
 const FormContainer = styled.div`
 display: flex,
@@ -140,7 +141,7 @@ const NewEmployee = React.memo(() => {
 		error: null,
 		isLoading: false,
 	});
-	const { handleChange, values, errors } = useForm(validate);
+	const { handleChange, values } = useForm(validate);
 	const { keyPressed } = useKeyPress("Escape");
 	const navigate = useNavigate();
 
@@ -153,10 +154,13 @@ const NewEmployee = React.memo(() => {
 		) {
 			setIsOpen(false);
 		}
-		
-		if(((e.target.classList.contains("modal-cross")) ||
-		e.target.classList.contains("wrapper")) && res.data.data.status === 200 ){
-			console.log("reload")
+
+		if (
+			(e.target.classList.contains("modal-cross") ||
+				e.target.classList.contains("wrapper")) &&
+			res.data.data.status === 200
+		) {
+			console.log("reload");
 		}
 	};
 
@@ -190,18 +194,20 @@ const NewEmployee = React.memo(() => {
 		handleOpen();
 	};
 
-    const handleClick = () => {
-        navigate("/employee-table");
-    }
+	const handleClick = () => {
+		navigate("/employee-table");
+	};
 
 	return (
 		<Main>
 			<TopCurve></TopCurve>
-				<HeroContainer>
-					<HeroHeader>New Employee Creation Form</HeroHeader>
-					<HeroImg src={heroImage} alt="hero-image" />
-					<HeroButton onClick={handleClick} type="button">View All Employees</HeroButton>
-				</HeroContainer>
+			<HeroContainer>
+				<HeroHeader>New Employee Creation Form</HeroHeader>
+				<HeroImg alt='hero-image' />
+				<HeroButton onClick={handleClick} type='button'>
+					View All Employees
+				</HeroButton>
+			</HeroContainer>
 			<Suspense fallback={<div>...Loading</div>}>
 				<FormContainer>
 					<Formzie>
@@ -276,8 +282,8 @@ const NewEmployee = React.memo(() => {
 						/>
 					</Formzie>
 				</FormContainer>
-				</Suspense>
-				<Suspense fallback={<></>}>
+			</Suspense>
+			<Suspense fallback={<></>}>
 				{isOpen && (
 					<Modal onClick={handleOpen}>
 						{res.data && (
@@ -302,8 +308,8 @@ const NewEmployee = React.memo(() => {
 						)}
 					</Modal>
 				)}
-				</Suspense>
-				<BottomCurve></BottomCurve>
+			</Suspense>
+			<BottomCurve></BottomCurve>
 		</Main>
 	);
 });
