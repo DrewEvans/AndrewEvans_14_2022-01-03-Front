@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useForm = (validate) => {
 	const [values, setValues] = useState({});
 	const [errors, setErrors] = useState();
 
 	//listens to any changes made in the input fields
-	const handleChange = (e) => {
+	const handleChange = useCallback((e) => {
 		const { name, value } = e.target;
 		//set state with new data on e
 		setValues({ ...values, [name]: value });
 		//pass values to validate to test and set errors if any recorded
 		
-	};
+	}, []);
 
 
 
