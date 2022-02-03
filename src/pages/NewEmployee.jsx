@@ -197,6 +197,7 @@ const NewEmployee = React.memo(() => {
 	};
 
 	const handleClick = () => {
+		window.location.reload(false);
 		navigate("/employee-table");
 	};
 
@@ -207,7 +208,7 @@ const NewEmployee = React.memo(() => {
 				<HeroHeader>New Employee Creation Form</HeroHeader>
 				<HeroImg alt='hero-image' />
 				<HeroButton onClick={handleClick} type='button'>
-					View All Employees
+					View Employees
 				</HeroButton>
 			</HeroContainer>
 			<Suspense fallback={<div>...Loading</div>}>
