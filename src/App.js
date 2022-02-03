@@ -13,7 +13,7 @@ const App = () => {
     <BrowserRouter>
       <Suspense fallback={<div>...loading</div>}>
         <Routes>
-          <Route path='/' element={<NewEmployee />} />
+          <Route exact path='/' element={<NewEmployee />} />
           <>
             {data && (
               <Route
