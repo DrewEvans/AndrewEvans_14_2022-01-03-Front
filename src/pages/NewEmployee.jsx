@@ -197,8 +197,9 @@ const NewEmployee = React.memo(() => {
 	};
 
 	const handleClick = () => {
-		window.location.reload(false);
+		
 		navigate("/employee-table");
+		window.location.reload(false);
 	};
 
 	return (
