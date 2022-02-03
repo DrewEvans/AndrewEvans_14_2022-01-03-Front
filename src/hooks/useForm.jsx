@@ -11,9 +11,7 @@ const useForm = (validate) => {
 		setValues({ ...values, [name]: value });
 		//pass values to validate to test and set errors if any recorded
 		
-	}, []);
-
-
+	}, [values]);
 
 	const submitForm = () => {
 		setErrors(validate(values));

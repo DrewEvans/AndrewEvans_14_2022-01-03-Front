@@ -155,14 +155,16 @@ const NewEmployee = React.memo(() => {
 			setIsOpen(false);
 		}
 
-		if (
-			(e.target.classList.contains("modal-cross") ||
-				e.target.classList.contains("wrapper")) &&
-			res.data.data.status === 200
-		) {
-			console.log("reload");
-		}
-	};
+		if (res.data != null) {
+			if (
+			  (res.data.data.status === 200 &&
+				e.target.classList.contains("modal-cross")) ||
+			  e.target.classList.contains("wrapper")
+			) {
+			  window.location.reload(false);
+			}
+		  }
+		};
 
 	if (isOpen && keyPressed) {
 		setIsOpen(false);
@@ -172,6 +174,7 @@ const NewEmployee = React.memo(() => {
 		e.preventDefault();
 
 		setRes((prevState) => ({ ...prevState, isLoading: true }));
+		
 		axios
 			.post("https://wealth-health.herokuapp.com/api/employees/create", {
 				city: values.city,
@@ -190,7 +193,6 @@ const NewEmployee = React.memo(() => {
 			.catch((error) => {
 				setRes({ data: null, isLoading: false, error });
 			});
-
 		handleOpen();
 	};
 
