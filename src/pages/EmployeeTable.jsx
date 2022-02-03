@@ -48,7 +48,7 @@ const DivContainer = styled.div`
 `;
 
 const Header = styled.h1`
-	color: #f0f0f0;
+	color: #fff;
 	display: flex;
 	justify-content: center;
 `;

@@ -173,7 +173,7 @@ const NewEmployee = React.memo(() => {
 
 		setRes((prevState) => ({ ...prevState, isLoading: true }));
 		axios
-			.post("http://localhost:5000/api/employees/create", {
+			.post("https://wealth-health.herokuapp.com/api/employees/create", {
 				city: values.city,
 				dateOfBirth: values.dateOfBirth,
 				department: values.department,

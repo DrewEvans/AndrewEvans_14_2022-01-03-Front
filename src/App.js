@@ -6,7 +6,9 @@ const NewEmployee = lazy(() => import("./pages/NewEmployee"));
 const EmployeeTable = lazy(() => import("./pages/EmployeeTable"));
 
 const App = () => {
-  const { data } = useFetch("http://localhost:5000/api/employees");
+  const { data } = useFetch(
+    "https://wealth-health.herokuapp.com/api/employees"
+  );
   return (
     <BrowserRouter>
       <Suspense fallback={<div>...loading</div>}>
