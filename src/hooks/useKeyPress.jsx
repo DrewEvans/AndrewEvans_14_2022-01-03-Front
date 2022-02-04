@@ -1,35 +1,35 @@
 import { useState, useEffect } from "react";
 
 const useKeyPress = (targetKey) => {
-	// State for keeping track of whether key is pressed
-	const [state, setState] = useState({keyPressed: false});
+  // State for keeping track of whether key is pressed
+  const [state, setState] = useState({ keyPressed: false });
 
-	// If pressed key is our target key then set to true
-	const downHandler = ({ key }) => {
-		if (key === targetKey) {
-			setState({keyPressed: true});
-		}
-	};
+  // If pressed key is our target key then set to true
+  const downHandler = ({ key }) => {
+    if (key === targetKey) {
+      setState({ keyPressed: true });
+    }
+  };
 
-	// If released key is our target key then set to false
-	const upHandler = ({ key }) => {
-		if (key === targetKey) {
-			setState({keyPressed: false});
-		}
-	};
+  // If released key is our target key then set to false
+  const upHandler = ({ key }) => {
+    if (key === targetKey) {
+      setState({ keyPressed: false });
+    }
+  };
 
-	// Add event listeners
-	useEffect(() => {
-		window.addEventListener("keydown", downHandler);
-		window.addEventListener("keyup", upHandler);
-		// Remove event listeners on cleanup
-		return () => {
-			window.removeEventListener("keydown", downHandler);
-			window.removeEventListener("keyup", upHandler);
-		};
-	}, []); // Empty array ensures that effect is only run on mount and unmount
+  // Add event listeners
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    // Remove event listeners on cleanup
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []); // Empty array ensures that effect is only run on mount and unmount
 
-	return state;
+  return state;
 };
 
 export default useKeyPress;

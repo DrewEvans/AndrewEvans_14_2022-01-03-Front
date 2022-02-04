@@ -17,6 +17,7 @@ const App = () => {
           <Route exact path='/' element={<NewEmployee refetch={refetch} />} />
           {data && (
             <Route
+              exact
               path='/employee-table'
               element={<EmployeeTable data={data} />}
             />
