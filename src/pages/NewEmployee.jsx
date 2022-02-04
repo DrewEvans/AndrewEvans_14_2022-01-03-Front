@@ -134,7 +134,7 @@ width: 365px;
 
 const list = ["Sales", "HR", "Marketing", "Finance"];
 
-const NewEmployee = React.memo(() => {
+const NewEmployee = React.memo(({refetch}) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [res, setRes] = useState({
 		data: null,
@@ -161,6 +161,7 @@ const NewEmployee = React.memo(() => {
 				e.target.classList.contains("modal-cross")) ||
 			  e.target.classList.contains("wrapper")
 			) {
+				
 			  window.location.reload(false);
 			}
 		  }
@@ -197,7 +198,7 @@ const NewEmployee = React.memo(() => {
 	};
 
 	const handleClick = () => {
-		navigate("/employee-table");
+		navigate("/employee-table") ;
 	};
 
 	return (
@@ -295,7 +296,7 @@ const NewEmployee = React.memo(() => {
 									{res.data.data.body.firstName}{" "}
 									{res.data.data.body.lastName} can be viewed
 									on the{" "}
-									<NavLink to='employee-table'>
+									<NavLink to='employee-table' onClick={refetch}>
 										Current Employees
 									</NavLink>{" "}
 									table

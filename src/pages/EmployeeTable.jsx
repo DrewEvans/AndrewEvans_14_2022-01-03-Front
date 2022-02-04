@@ -53,9 +53,8 @@ const Header = styled.h1`
 	justify-content: center;
 `;
 
-const EmployeeTable = React.memo(({ data }) => {
-
-
+const EmployeeTable = React.memo(({data}) => {
+	
 	const [currentRows, setCurrentRows] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -64,10 +63,11 @@ const EmployeeTable = React.memo(({ data }) => {
 
 	const indexofLastRow = currentPage * rowsPerPage;
 	const indexOfFirstRow = indexofLastRow - rowsPerPage;
-	const totalRows = Math.ceil(data.body.length);
+
+	const totalRows =  Math.ceil(data.body.length);
 
 	useEffect(() => {
-		setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+		setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow))
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentPage, rowsPerPage]);
 
