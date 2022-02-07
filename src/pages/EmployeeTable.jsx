@@ -1,12 +1,32 @@
 import React, { useEffect, useState, lazy, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 import { sortArray } from "../helpers/sortEmployeeHeaders";
 import { searchEmployee } from "../helpers/searchEmployee";
 import { siblingNodeDirection } from "../helpers/siblingNodeDirection";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import "./styles/tableStyle.css";
 
 const Pagination = lazy(() => import("../components/Pagination"));
 const Table = lazy(() => import("../components/Table"));
+
+const backButton = (
+  <FontAwesomeIcon className='back-btn' icon={faArrowCircleLeft} />
+);
+
+const BackButton = styled.div`
+  position: absolute;
+  font-size: 2.5em;
+  top: 0.5em;
+  left: 1em;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+`;
 
 const Main = styled.main`
   margin: 0;
@@ -68,6 +88,9 @@ const EmployeeTable = React.memo(({ data }) => {
   //obtain how records will be listed
   const totalRows = Math.ceil(data.body.length);
 
+  //react-router useNav hook
+  let navigate = useNavigate();
+
   //on page load set the number of pages the user can paginate through
   useEffect(() => {
     setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
@@ -109,6 +132,11 @@ const EmployeeTable = React.memo(({ data }) => {
     setCurrentPage(1);
   };
 
+  //redirect to homepage ocClick
+  const handleNavigate = () => {
+    navigate("/");
+  };
+
   //array of objects to define columns for the table component
   const tableConfig = [
     { header: "City", field: "city" },
@@ -124,6 +152,7 @@ const EmployeeTable = React.memo(({ data }) => {
 
   return (
     <Main>
+      <BackButton onClick={handleNavigate}>{backButton}</BackButton>
       <TopCurve />
       <Header>Current Employees</Header>
       <DivContainer>
