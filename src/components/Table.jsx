@@ -12,6 +12,7 @@ const Table = ({ tableConfig, onClick, onChange, data }) => {
   const columnHeaders = [];
   const rowFields = [];
 
+  //push create column headers and row fields based on tableconfig object
   for (const { header, field } of tableConfig) {
     columnHeaders.push(header);
     rowFields.push(field);

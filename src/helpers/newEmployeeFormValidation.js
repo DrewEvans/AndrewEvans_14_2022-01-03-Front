@@ -1,3 +1,4 @@
+//test fields to ensure no errors are present
 export default function validateValues(values) {
   const {
     firstName,
@@ -17,11 +18,10 @@ export default function validateValues(values) {
   //new object array to push errros if strings fails regex pattern
   let errors = {};
 
-  //if string fails update user msg with error
   if (!spaceRegex.test(firstName) && !nameRegex.test(firstName)) {
     errors.firstName = "Please enter first name";
   }
-  //if string fails update user msg with error
+
   if (!spaceRegex.test(lastName) && !nameRegex.test(lastName)) {
     errors.lastName = "Please enter last name";
   }

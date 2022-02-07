@@ -9,31 +9,31 @@ const Pagination = lazy(() => import("../components/Pagination"));
 const Table = lazy(() => import("../components/Table"));
 
 const Main = styled.main`
-	margin: 0;
+  margin: 0;
 `;
 const BottomCurve = styled.div`
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 300px;
-	background-color: #818f3a;
-	clip-path: ellipse(140% 50% at 140.09% 100%);
-	z-index: -1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  background-color: #818f3a;
+  clip-path: ellipse(140% 50% at 140.09% 100%);
+  z-index: -1000;
 `;
 const TopCurve = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 300px;
-	background-color: #93ad16;
-	clip-path: ellipse(141% 55% at 140% 1%);
-	z-index: -1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  background-color: #93ad16;
+  clip-path: ellipse(141% 55% at 140% 1%);
+  z-index: -1000;
 
-	@media (min-width: 320px) and (max-width: 768px) {
-		clip-path: ellipse(85% 65% at 35% 15%);
-	}
+  @media (min-width: 320px) and (max-width: 768px) {
+    clip-path: ellipse(85% 65% at 35% 15%);
+  }
 `;
 
 const DivContainer = styled.div`
@@ -48,93 +48,106 @@ const DivContainer = styled.div`
 `;
 
 const Header = styled.h1`
-	color: #fff;
-	display: flex;
-	justify-content: center;
+  color: #fff;
+  display: flex;
+  justify-content: center;
 `;
 
-const EmployeeTable = React.memo(({data}) => {
-	const [currentRows, setCurrentRows] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
-	const [rowsPerPage, setRowsPerPage] = useState(10);
-	const [sortDirection, setSortDirection] = useState("");
-	const [searchKey, setSearchKey] = useState("");
+const EmployeeTable = React.memo(({ data }) => {
+  const [currentRows, setCurrentRows] = useState([]); //default rows is set to blank array
+  const [currentPage, setCurrentPage] = useState(1); // default pagination default is 1
+  const [rowsPerPage, setRowsPerPage] = useState(10); //default records per page is 10
+  const [sortDirection, setSortDirection] = useState(""); // default sort direction is blank
+  const [searchKey, setSearchKey] = useState(""); //default search input is blank
 
-	const indexofLastRow = currentPage * rowsPerPage;
-	const indexOfFirstRow = indexofLastRow - rowsPerPage;
+  //last page number based on rows per page
+  const indexofLastRow = currentPage * rowsPerPage;
+  //first page number based on how many rows per page
+  const indexOfFirstRow = indexofLastRow - rowsPerPage;
 
-	const totalRows =  Math.ceil(data.body.length);
+  //obtain how records will be listed
+  const totalRows = Math.ceil(data.body.length);
 
-	useEffect(() => {
-		setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow))
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [currentPage, rowsPerPage]);
+  //on page load set the number of pages the user can paginate through
+  useEffect(() => {
+    setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, rowsPerPage]);
 
-	const handleClick = (e) => {
-		const value = e.target.innerText.toLowerCase().replace(/\s+/g, "");
+  //Click event listener to enable the sort direction of the data presented by column
+  const handleClick = (e) => {
+    //column header
+    const value = e.target.innerText.toLowerCase().replace(/\s+/g, "");
 
-		setSortDirection(siblingNodeDirection(e));
+    //call sort direction updating the clicks siblings
+    setSortDirection(siblingNodeDirection(e));
 
-		if (searchKey.length > 0) {
-			setCurrentRows(sortArray(value, currentRows, sortDirection));
-		} else {
-			setCurrentRows(sortArray(value, currentRows, sortDirection));
-		}
-	};
+    //if search key is present on sort only sort on the filtered array else sort all
+    if (searchKey.length > 0) {
+      setCurrentRows(sortArray(value, currentRows, sortDirection));
+    } else {
+      setCurrentRows(sortArray(value, currentRows, sortDirection));
+    }
+  };
 
-	const handleChange = (e) => {
-		setSearchKey(e.target.value);
+  // listen for user input in search bar returning the values that match the search key
+  const handleChange = (e) => {
+    setSearchKey(e.target.value);
 
-		searchKey
-			? setCurrentRows(searchEmployee(data.body, searchKey))
-			: setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
-	};
+    //if search key is present show all records matching criteria else setState to display all
+    searchKey
+      ? setCurrentRows(searchEmployee(data.body, searchKey))
+      : setCurrentRows(data.body.slice(indexOfFirstRow, indexofLastRow));
+  };
 
-	const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  //sets the page number to which the user should be currently viewing
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-	const rowChange = (e) => {
-		setRowsPerPage(e.target.value);
-		setCurrentPage(1);
-	};
+  //listens if user has changed the display rows per page
+  const rowChange = (e) => {
+    setRowsPerPage(e.target.value);
+    setCurrentPage(1);
+  };
 
-	const tableConfig = [
-		{ header: "City", field: "city" },
-		{ header: "Date of Birth", field: "birthDate" },
-		{ header: "Department", field: "deparment" },
-		{ header: "First Name", field: "firstName" },
-		{ header: "Last Name", field: "lastName" },
-		{ header: "Start Date", field: "startDay" },
-		{ header: "State", field: "state" },
-		{ header: "Street", field: "Street" },
-		{ header: "Zip Code", field: "zipCode" },
-	];
+  //array of objects to define columns for the table component
+  const tableConfig = [
+    { header: "City", field: "city" },
+    { header: "Date of Birth", field: "birthDate" },
+    { header: "Department", field: "deparment" },
+    { header: "First Name", field: "firstName" },
+    { header: "Last Name", field: "lastName" },
+    { header: "Start Date", field: "startDay" },
+    { header: "State", field: "state" },
+    { header: "Street", field: "Street" },
+    { header: "Zip Code", field: "zipCode" },
+  ];
 
-	return (
-		<Main>
-			<TopCurve />
-			<Header>Current Employees</Header>
-			<DivContainer>
-				<Suspense fallback={<>...loading</>}>
-					<Table
-						tableConfig={tableConfig}
-						onClick={handleClick}
-						onChange={handleChange}
-						data={currentRows}
-					/>
-				</Suspense>
-				<Suspense fallback={<></>}>
-					<Pagination
-						totalRows={totalRows}
-						rowsPerPage={rowsPerPage}
-						currentPage={currentPage}
-						paginate={paginate}
-						onChange={rowChange}
-					/>
-				</Suspense>
-			</DivContainer>
-			<BottomCurve />
-		</Main>
-	);
+  return (
+    <Main>
+      <TopCurve />
+      <Header>Current Employees</Header>
+      <DivContainer>
+        <Suspense fallback={<></>}>
+          <Table
+            tableConfig={tableConfig}
+            onClick={handleClick}
+            onChange={handleChange}
+            data={currentRows}
+          />
+        </Suspense>
+        <Suspense fallback={<></>}>
+          <Pagination
+            totalRows={totalRows}
+            rowsPerPage={rowsPerPage}
+            currentPage={currentPage}
+            paginate={paginate}
+            onChange={rowChange}
+          />
+        </Suspense>
+      </DivContainer>
+      <BottomCurve />
+    </Main>
+  );
 });
 
 export default EmployeeTable;

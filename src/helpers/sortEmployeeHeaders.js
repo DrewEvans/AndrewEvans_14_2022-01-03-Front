@@ -1,4 +1,6 @@
+//function that is called when user clicks on a header/sort and the data is sorted by direction last clicked
 export const sortArray = (type, data, sortDirection) => {
+  //object of different types the user can sort data by
   const types = {
     city: "city",
     dateofbirth: "dateOfBirth",
@@ -15,7 +17,9 @@ export const sortArray = (type, data, sortDirection) => {
 
   let sortParameters;
 
+  //if sortDirection is set to ascend then reverse the sort to show Z-A else sort A-Z
   if (sortDirection === "ascend") {
+    //sort function for the all the column header present on the table component
     if (sortProperty === "city") {
       sortParameters = [...data].sort((a, b) => {
         if (b.city < a.city) {

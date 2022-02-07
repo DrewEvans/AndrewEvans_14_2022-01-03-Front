@@ -210,7 +210,7 @@ const NewEmployee = React.memo(({ refetch }) => {
           View Employees
         </HeroButton>
       </HeroContainer>
-      <Suspense fallback={<div>...Loading</div>}>
+      <Suspense fallback={<></>}>
         <FormContainer>
           <Formzie>
             <InputField

@@ -15,8 +15,10 @@ const Pagination = ({
   currentPage,
   onChange,
 }) => {
+  //empty array of pages
   const numberOfPages = [];
 
+  //loop over the number of pages that are needed depending on rows per page
   for (let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
     numberOfPages.push(i);
   }
