@@ -26,6 +26,12 @@ const BackButton = styled.div`
   &:hover {
     transform: translateY(-2px);
   }
+
+  @media (min-width: 320px) and (max-width: 768px) {
+    top: 1.25em;
+    left: 0.4em;
+    font-size: 1.5em;
+  }
 `;
 
 const Main = styled.main`
